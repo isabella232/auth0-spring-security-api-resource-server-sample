@@ -1,0 +1,331 @@
+{
+	"variables": [],
+	"info": {
+		"name": "resource-server",
+		"_postman_id": "51501bd1-a5b0-f575-0f6c-be95ea9f513a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": " resource server - PATCH API with Scopes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{AUTH0_DOMAIN}}/api/v2/resource-servers/{{RESOURCE_SERVER_ID}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{RESOURCE_SERVER_TOKEN}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"scopes\":[{\"value\": \"read:profiles\"}, {\"value\": \"read:profile\"}, {\"value\": \"write:profile\"}, {\"value\": \"delete:profile\"}]}"
+				},
+				"description": "Update Auth0 Resource Server (identified with resource_server_id) with list of scopes you wish to associate with this API (resource server)"
+			},
+			"response": []
+		},
+		{
+			"name": "resource server - GET Client Grants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar data = JSON.parse(responseBody);\n\ntests[\"Body contains client_id: eTQbNn3qxypLq2Lc1qQEThYL6R7M7MDh\"] = responseBody.has(\"eTQbNn3qxypLq2Lc1qQEThYL6R7M7MDh\");\n\nvar item = _.filter(data, function (o) { \n    return o.client_id === 'eTQbNn3qxypLq2Lc1qQEThYL6R7M7MDh';\n})[0];\n\ntests[\"expected id: cgr_cBPDK6ptPTPlyrHq\n\"] = item.id === 'cgr_cBPDK6ptPTPlyrHq'\n\npostman.setEnvironmentVariable(\"client_grant_id\", item.id);"
+					}
+				}
+			],
+			"request": {
+				"url": " https://{{AUTH0_DOMAIN}}/api/v2/client-grants",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{RESOURCE_SERVER_TOKEN}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Gets list of existing Client Grants. Represents the scope information associated with each Client across ALL resource servers defined for the given Auth0 Tenant"
+			},
+			"response": []
+		},
+		{
+			"name": "resource server - GET API scopes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\ntests[\"Body matches read_quotes\"] = responseBody.has(\"read_quotes\");"
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{AUTH0_DOMAIN}}/api/v2/resource-servers/{{RESOURCE_SERVER_ID}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{RESOURCE_SERVER_TOKEN}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"scopes\":[{\"value\": \"read_quotes\"}, {\"value\": \"create_user\"}]}"
+				},
+				"description": "Gets list of API scopes for this resource server (identified by resource_server_id)"
+			},
+			"response": []
+		},
+		{
+			"name": "resource server - POST - obtain API Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\nvar data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"access_token\", data.access_token);\n\n"
+					}
+				}
+			],
+			"request": {
+				"url": "https://arcseldon.auth0.com/oauth/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"audience\": \"https://arcseldon.resourceserver.com\",\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"eTQbNn3qxypLq2Lc1qQEThYL6R7M7MDh\",\n    \"client_secret\": \"Z33oat8uwFRCB6ZMaJLOcoS94vOGbyzGWlTvwR44fk876gDF20ZRpMCbiVtgBFFA\"\n }"
+				},
+				"description": "Get a token for the resource server (identified by audience in POST body request)"
+			},
+			"response": []
+		},
+		{
+			"name": "resource server - PATCH Client Grants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{AUTH0_DOMAIN}}/api/v2/client-grants/{{client_grant_id}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{RESOURCE_SERVER_TOKEN}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"scope\": [\"read:profiles\", \"read:profile\", \"write:profile\", \"delete:profile\"]}\n"
+				},
+				"description": "Update particular Client (associated with given resource server) with specific set of Client Grants - some subset of the scope information defined for the given resource server"
+			},
+			"response": []
+		},
+		{
+			"name": "GET PING http://localhost:3001/ping",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/ping",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Simple ping to check Resource Server is responding - no authorization credentials (JWT access token) required."
+			},
+			"response": []
+		},
+		{
+			"name": "GET Profiles http://localhost:3001/secured/profiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/api/v1/profiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get all Profiles - must have read:profiles scope"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Profile http://localhost:3001/secured/profiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/api/v1/profiles/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get specific profile by id - must have read:profile or read:profiles scope info"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Profile http://localhost:3001/secured/profiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/api/v1/profiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Chuck\",\n    \"email\": \"chuck@communications.com\"\n }"
+				},
+				"description": "Create a new Profile - must have write:profile scope"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Profile http://localhost:3001/secured/profiles",
+			"request": {
+				"url": "http://localhost:3001/api/v1/profiles/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"bob@youwerehacked.com\"\n }"
+				},
+				"description": "Update existing Profile - must have write:profile scope"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Profile http://localhost:3001/secured/profiles",
+			"request": {
+				"url": "http://localhost:3001/api/v1/profiles/2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Delete an existing Profile - must have delete:profile scope"
+			},
+			"response": []
+		}
+	]
+}
