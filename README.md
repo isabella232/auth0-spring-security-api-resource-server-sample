@@ -95,7 +95,7 @@ Then from Postman import the collection found from root of this sample here: `po
 If you view the descriptions for each of the defined endpoints imported, they have a description of what each
 does.
 
-![](img/5.import_results.jpg)
+![](img/5.import_result.jpg)
 
 
 We patch the Resource Server with `https://{{AUTH0_DOMAIN}}/api/v2/resource-servers/{{RESOURCE_SERVER_ID}}`
@@ -307,5 +307,3 @@ If you have found a bug or if you have a feature request, please report them at 
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE.txt) file for more info.
-
-
