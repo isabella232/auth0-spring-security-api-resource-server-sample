@@ -1,5 +1,17 @@
 ### Auth0 Resource Server Sample - using Spring Boot and Spring Security
 
+This is a companion sample for the [Auth0 Spring Security API](https://github.com/auth0/auth0-spring-security-api) library.
+Please refer to that library and documentation for further information specific to the library itself.
+
+Note: This sample is appropriate if you are using / intending to use the [Auth0 Resource Server (API Auth)](https://auth0.com/docs/api-auth/using-the-auth0-dashboard) as part of the
+[API Authentication and Authorization](https://auth0.com/docs/api-auth) flows.
+
+However, if you were just wishing to have something more akin to a `headless` Spring MVC application, or simple REST API, for example co-located with
+a Single Page Application (SPA) - then please also study this [Auth0 Spring Security API Sample](https://github.com/auth0-samples/auth0-spring-security-api-sample).
+The key point here is that this particular sample provides the configuration changes, and README information necessary to set up a Resource Server that
+can support the `Client Credentials` flow.
+
+
 Demonstrates using Auth0 with Spring Boot and Spring Security to create a secure Resource Server - JWT Token Scope level Authorization
 
 This sample would be suitable for headless APIs and SPA (single page application) backend end server scenarios.
