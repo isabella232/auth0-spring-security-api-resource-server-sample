@@ -18,7 +18,6 @@ public class ProfileService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//    protected ProfileRepository profileRepository;
     protected ProfileRepositoryStub profileRepository;
 
     private Auth0Client auth0Client;
