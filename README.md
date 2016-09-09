@@ -3,7 +3,7 @@
 This is a companion sample for the [Auth0 Spring Security API](https://github.com/auth0/auth0-spring-security-api) library.
 Please refer to that library and documentation for further information specific to the library itself.
 
-Note: This sample is appropriate if you are using / intending to use the [Auth0 Resource Server (API Auth)](https://auth0.com/docs/api-auth/using-the-auth0-dashboard) as part of the
+Note: This sample is appropriate if you are using / intending to use the [Auth0 Resource Server (API Auth)](https://auth0.com/docs/api-auth#using-the-auth0-dashboard-for-setting-up-an-api-authorization-scenario) as part of the
 [API Authentication and Authorization](https://auth0.com/docs/api-auth) flows.
 
 However, if you were just wishing to have something more akin to a `headless` Spring MVC application, or simple REST API, for example co-located with
